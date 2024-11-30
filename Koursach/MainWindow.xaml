@@ -1,0 +1,72 @@
+﻿<Window x:Class="TaskScheduler.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:TaskScheduler"
+        Title="Task Scheduler" Height="450" Width="600">
+    <Grid>
+        <!-- Grid Layout -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Заголовок и фильтрация -->
+        <StackPanel Orientation="Vertical" Margin="10">
+            <!-- Фильтрация по статусу -->
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="Фильтр по статусу:" VerticalAlignment="Center" Margin="5"/>
+                <ComboBox Name="StatusComboBox" Width="120" Margin="5" SelectionChanged="OnStatusFilterChanged">
+                    <ComboBoxItem Content="Все" />
+                    <ComboBoxItem Content="Запланировано" />
+                    <ComboBoxItem Content="В процессе" />
+                    <ComboBoxItem Content="Выполнено" />
+                </ComboBox>
+            </StackPanel>
+
+            <!-- Фильтрация по дате -->
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="Фильтр по дате:" VerticalAlignment="Center" Margin="5"/>
+                <DatePicker Name="DateFilterPicker" Width="120" Margin="5" SelectedDateChanged="OnDateFilterChanged"/>
+            </StackPanel>
+
+            <!-- Сортировка по дате -->
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="Сортировать по дате:" VerticalAlignment="Center" Margin="5"/>
+                <ComboBox Name="DateSortComboBox" Width="150" Margin="5" SelectionChanged="OnDateSortChanged">
+                    <ComboBoxItem Content="Сначала старые" />
+                    <ComboBoxItem Content="Сначала новые" />
+                </ComboBox>
+            </StackPanel>
+
+            <!-- Сортировка по приоритету -->
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="Сортировать по приоритету:" VerticalAlignment="Center" Margin="5"/>
+                <ComboBox Name="PrioritySortComboBox" Width="150" Margin="5" SelectionChanged="OnPrioritySortChanged">
+                    <ComboBoxItem Content="Сначала высокий" />
+                    <ComboBoxItem Content="Сначала низкий" />
+                </ComboBox>
+            </StackPanel>
+
+            <!-- Кнопки -->
+            <WrapPanel Orientation="Horizontal" Margin="10">
+                <Button Content="Добавить задачу" Width="120" Margin="5" Click="AddTaskButton_Click"/>
+                <Button Content="Сохранить" Width="100" Margin="5" Click="SaveTasksButton_Click"/>
+                <Button Content="Загрузить задачи" Width="120" Margin="5" Click="LoadTasksButton_Click"/>
+            </WrapPanel>
+        </StackPanel>
+
+        <!-- Список задач -->
+        <DataGrid Name="TasksDataGrid" Grid.Row="1" AutoGenerateColumns="False" 
+                  SelectionMode="Single" CanUserSortColumns="True" 
+                  ItemsSource="{Binding Tasks}" Margin="10"
+                  MouseDoubleClick="TasksDataGrid_MouseDoubleClick">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Заголовок" Binding="{Binding Title}" Width="200"/>
+                <DataGridTextColumn Header="Описание" Binding="{Binding Description}" Width="300"/>
+                <DataGridTextColumn Header="Срок" Binding="{Binding DueDate}" Width="150"/>
+                <DataGridTextColumn Header="Приоритет" Binding="{Binding Priority}" Width="100"/>
+                <DataGridTextColumn Header="Статус" Binding="{Binding Status}" Width="150"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>
